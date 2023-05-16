@@ -1,0 +1,31 @@
+from flask import Flask, render_template
+
+app = Flask(__name__)
+
+# Sample blog posts
+posts = [
+    {
+        'title': 'First Blog Post',
+        'author': 'John Doe',
+        'content': 'This is the content of the first blog post.'
+    },
+    {
+        'title': 'Second Blog Post',
+        'author': 'Jane Smith',
+        'content': 'This is the content of the second blog post.'
+    }
+]
+
+@app.route('/')
+def home():
+    return render_template('index.html', posts=posts)
+
+@app.route('/post/<int:index>')
+def blog_post(index):
+    if 0 <= index < len(posts):
+        return render_template('post.html', post=posts[index])
+    else:
+        return 'Post not found.'
+
+if __name__ == '__main__':
+    app.run()
